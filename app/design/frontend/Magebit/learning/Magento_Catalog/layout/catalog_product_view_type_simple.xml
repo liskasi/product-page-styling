@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="css/source/product/_extend.less" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <attribute name="class" value="custom page-product-simple"/>
+        <move element="product.attributes" destination="product.info.main" after="product.info.price"/>
+        <move element="product.info.overview" destination="product.info.main" after="product.info.price"/>
+        <referenceBlock name="product.info.addto" remove="true"/>
+        <move element="product.info.upsell" destination="product.info.main" after="addtocart"/>
+        <referenceBlock name="product.info.details" remove="true"/>
+        <move element="catalog.product.related" destination="content.aside"  after="-"/>
+    </body>
+</page>

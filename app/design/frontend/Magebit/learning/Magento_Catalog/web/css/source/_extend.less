@@ -1,0 +1,43 @@
+@btn-color-background: #ff5501;
+@color-white: #fff;
+@description-color-background: #f9f9f9;
+@button-primary__background: @btn-color-background;
+@h1__font-size: 32px;
+@h1__font-weight: @font-weight__semibold;
+
+
+.set-qty-group {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 52px;
+    .increase.button,
+    .decrease.button {
+        width: 52px;
+        top: 0;
+        background-color: @color-white;
+        border-radius: 0 2px;
+    }
+    input[type="number"].qty-input {
+        width: 86px;
+        height: 100%;
+    }
+}
+
+.product-info-main .product-info-price {
+    border: none;
+}
+
+.additional-attributes-wrapper.table-wrapper {
+    background-color: @description-color-background;
+    padding: 20px 34px;
+}
+
+.action.add {
+    color: @color-gray20;
+    text-decoration: none;
+    border: 1px solid @color-gray20;
+    border-radius: 2px;
+    padding: 5px 10px;
+}
+
