@@ -10,8 +10,17 @@
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()) : ?>
     <div class="box-tocart">
-        <div data-bind="scope: 'qty-counter'">
-            <!-- ko template: getTemplate() --><!-- /ko -->
+        <div class="item-qty-info">
+            <div data-bind="scope: 'qty-counter'">
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <div class="stock-availability">
+                <img alt="" src="<?= $this->getViewFileUrl('Magento_Catalog::images/check-mark.svg'); ?>"/>
+                <p class="in-stock">In stock</p>
+                <p class="amount-in-stock">
+                    <?= $_product->getExtensionAttributes()->getStockItem()->getQty(); ?> items available
+                </p>
+            </div>
         </div>
         <div class="fieldset">
             <div class="actions">

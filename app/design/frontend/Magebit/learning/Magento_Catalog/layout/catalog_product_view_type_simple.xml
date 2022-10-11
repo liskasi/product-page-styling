@@ -10,12 +10,13 @@
         <css src="css/source/product/_extend.less" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <attribute name="class" value="custom page-product-simple"/>
+<!--        <attribute name="class" value="custom page-product-simple"/>-->
+        <referenceBlock name="product.info.overview" remove="true" />
         <move element="product.attributes" destination="product.info.main" after="product.info.price"/>
-        <move element="product.info.overview" destination="product.info.main" after="product.info.price"/>
+        <referenceBlock name="product.info.type" remove="true"/>
         <referenceBlock name="product.info.addto" remove="true"/>
         <move element="product.info.upsell" destination="product.info.main" after="addtocart"/>
         <referenceBlock name="product.info.details" remove="true"/>
-        <move element="catalog.product.related" destination="content.aside"  after="-"/>
+        <move element="catalog.product.related" destination="content"/>
     </body>
 </page>
