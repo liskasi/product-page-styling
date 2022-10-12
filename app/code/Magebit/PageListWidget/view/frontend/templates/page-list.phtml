@@ -2,12 +2,10 @@
 $selectedPages = $block->getSelectedPages();
 ?>
 <div>
-    <p>Hello</p>
     <p><b><?= $block->getWidgetTitle(); ?><b></p>
     <ul>
         <?php foreach ($selectedPages as $selectedPage) : ?>
             <li><a href=<?= $selectedPage->getIdentifier() ?>><?= $selectedPage->getTitle() ?></a></li>
         <?php endforeach; ?>
     </ul>
-
 </div>
