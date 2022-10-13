@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -10,29 +11,39 @@
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()) : ?>
     <div class="box-tocart">
-        <div class="item-qty-info">
-            <div data-bind="scope: 'qty-counter'">
-                <!-- ko template: getTemplate() --><!-- /ko -->
+        <?php if ($block->shouldRenderQuantity()) : ?>
+            <?php if ($_product->getTypeId() == 'simple') : ?>
+                <div class="item-qty-info">
+                    <div data-bind="scope: 'qty-counter'">
+                        <!-- ko template: getTemplate() -->
+                        <!-- /ko -->
+                    </div>
+                    <div class="stock-availability">
+                        <img alt="" src="<?= $this->getViewFileUrl('Magento_Catalog::images/check-mark.svg'); ?>" />
+                        <p class="in-stock">In stock</p>
+                        <p class="amount-in-stock">
+                            <?= $_product->getExtensionAttributes()->getStockItem()->getQty(); ?> items available
+                        </p>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                    <div class="control">
+                        <input type="number" name="qty" id="qty" min="0" value="<?= $block->getProductDefaultQty() * 1 ?>" title="<?= $block->escapeHtmlAttr(__('Qty')) ?>" class="input-text qty" data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" />
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <div class="fieldset">
+                <div class="actions">
+                    <button type="submit" title="<?= $block->escapeHtmlAttr($buttonTitle) ?>" class="action primary tocart" id="product-addtocart-button" disabled>
+                        <span><?= $block->escapeHtml($buttonTitle) ?></span>
+                    </button>
+                    <?= $block->getChildHtml('', true) ?>
+                </div>
             </div>
-            <div class="stock-availability">
-                <img alt="" src="<?= $this->getViewFileUrl('Magento_Catalog::images/check-mark.svg'); ?>"/>
-                <p class="in-stock">In stock</p>
-                <p class="amount-in-stock">
-                    <?= $_product->getExtensionAttributes()->getStockItem()->getQty(); ?> items available
-                </p>
-            </div>
-        </div>
-        <div class="fieldset">
-            <div class="actions">
-                <button type="submit"
-                        title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
-                        class="action primary tocart"
-                        id="product-addtocart-button" disabled>
-                    <span><?= $block->escapeHtml($buttonTitle) ?></span>
-                </button>
-                <?= $block->getChildHtml('', true) ?>
-            </div>
-        </div>
+        <?php endif; ?>
     </div>
 <?php endif; ?>
 <script type="text/x-magento-init">

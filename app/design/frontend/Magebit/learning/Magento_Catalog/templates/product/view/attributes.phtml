@@ -10,19 +10,19 @@
 $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
 $_product = $block->getProduct();
 ?>
-<?php if ($_additional = $block->getAdditionalData()) :?>
+<?php if ($_additional = $block->getAdditionalData()) : ?>
     <?php $shownAttributes = array_slice($_additional, 0, 3); ?>
     <div class="additional-attributes-wrapper">
         <div class="data additional-attributes" id="product-attribute-specs-table">
             <ul>
-            <?php foreach ($shownAttributes as $_data) :?>
-                <li>
-                    <p class="attribute-label" ><?= $block->escapeHtml($_data['label']) ?>: </p>
-                    <p><?= /* @noEscape */ $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></p>
-                </li>
-            <?php endforeach; ?>
+                <?php foreach ($shownAttributes as $_data) : ?>
+                    <li>
+                        <p class="attribute-label"><?= $block->escapeHtml($_data['label']) ?>: </p>
+                        <p><?= /* @noEscape */ $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></p>
+                    </li>
+                <?php endforeach; ?>
             </ul>
             <div class="short-description"><?= $_product->getShortDescription(); ?></div>
         </div>
     </div>
-<?php endif;?>
+<?php endif; ?>
