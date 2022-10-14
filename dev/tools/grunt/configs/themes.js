@@ -50,14 +50,5 @@ module.exports = {
             'css/styles'
         ],
         dsl: 'less'
-    },
-    learning: {
-	area: 'frontend',
-	name: 'Magebit/learning',
-	locale: 'en_US',
-	files: [
-	    'css/source/_extend'
-	],
-	dsl: 'less'
     }
 };
