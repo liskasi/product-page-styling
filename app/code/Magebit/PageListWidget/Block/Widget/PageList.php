@@ -17,8 +17,10 @@
 
 namespace Magebit\PageListWidget\Block\Widget;
 
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template;
+use Magento\Cms\Api\PageRepositoryInterface;
 
 /**
  * Block responsible for displaying the list of CMS Pages
@@ -26,27 +28,27 @@ use Magento\Framework\View\Element\Template;
 class PageList extends Template implements \Magento\Framework\Data\OptionSourceInterface
 {
     protected $_template = "page-list.phtml";
-    protected \Magento\Cms\Api\PageRepositoryInterface $pageRepository;
-    protected \Magento\Framework\Api\SearchCriteriaBuilder $search;
+    protected PageRepositoryInterface $pageRepository;
+    protected SearchCriteriaBuilder $search;
     public array $pages = [];
 
     /**
      * Widget options
      */
-    const SPECIFIC_PAGES = "specific_pages";
-    const DISPLAY_MODE = "display_mode";
-    const SELECTED_PAGES = "selected_pages";
-    const TITLE = "title";
+    private const SPECIFIC_PAGES = "specific_pages";
+    private const DISPLAY_MODE = "display_mode";
+    private const SELECTED_PAGES = "selected_pages";
+    private const TITLE = "title";
 
     /**
      * @param \Magento\Cms\Api\PageRepositoryInterface $pageRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Cms\Api\PageRepositoryInterface $pageRepository,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\View\Element\Template\Context $context,
         array $data = []
     ) {
@@ -74,7 +76,7 @@ class PageList extends Template implements \Magento\Framework\Data\OptionSourceI
 
     /**
      * Add filter is_active to a search criteria
-     * @return \Magento\Framework\Api\SearchCriteriaBuilder
+     * @return SearchCriteriaBuilder
      */
     protected function setSearchCriteriaIsActive()
     {
@@ -83,11 +85,11 @@ class PageList extends Template implements \Magento\Framework\Data\OptionSourceI
 
     /**
      * Return an array of CMS Pages filtered by a search criteria
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteria
+     * @param SearchCriteriaBuilder $searchCriteria
      * @return array
      * @throws LocalizedException
      */
-    public function getCmsPages(\Magento\Framework\Api\SearchCriteriaBuilder $searchCriteria): array
+    public function getCmsPages(SearchCriteriaBuilder $searchCriteria): array
     {
         return $this->pageRepository->getList($searchCriteria->create())->getItems();
     }
