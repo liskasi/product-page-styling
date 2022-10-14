@@ -8,8 +8,6 @@
 @description-color-background: #f9f9f9;
 @color-title: #c2c2c2;
 
-
-
 //
 //  Styling for screen less than m
 //  ---------------------------------------------
@@ -80,9 +78,14 @@
                 .product-image-wrapper,
                 .product-image-photo {
                     object-fit: cover;
-                    width: 88px !important;
+                    width: 88px;
                     height: 110px;
-                    padding-bottom: 0 !important;
+                    padding-bottom: 0;
+                    margin: 0;
+                }
+
+                .product-image-container {
+                    width: 88px !important;
                 }
 
                 .product-item-details {
@@ -167,11 +170,9 @@
             }
         }
 
-
         .product.media {
             width: 50%;
         }
-
 
         .product.name a {
             font-weight: 600;
@@ -199,17 +200,14 @@
             }
         }
 
-
         .related {
             .price-box {
                 margin: 10px 0 10px;
-
 
                 .price-container {
                     .price {
                         font-size: 22px;
                     }
-
                 }
 
                 .old-price .price {
@@ -316,12 +314,11 @@
                 .price-box {
                     padding-bottom: 0;
 
-                    .price-container>span {
+                    .price-container > span {
                         margin-bottom: 0;
                     }
                 }
             }
-
 
             .product-info-stock-sku {
                 //padding-left: 16px;
