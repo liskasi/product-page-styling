@@ -21,7 +21,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
 
     public function getQuestion()
     {
-        return 1;
+        return $this->getData("question");
     }
 
 //    /**
@@ -37,7 +37,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function setQuestion($question)
     {
-        // TODO: Implement setQuestion() method.
+        return $this->setData("question", $question);
     }
 
     /**
@@ -45,7 +45,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function getAnswer()
     {
-        // TODO: Implement getAnswer() method.
+        return $this->getData("answer");
     }
 
     /**
@@ -54,7 +54,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function setAnswer($answer)
     {
-        // TODO: Implement setAnswer() method.
+        return $this->setData("answer", $answer);
     }
 
     /**
@@ -62,7 +62,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function getStatus()
     {
-        // TODO: Implement getStatus() method.
+        return $this->getData("status");
     }
 
     /**
@@ -71,7 +71,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function setStatus($status)
     {
-        // TODO: Implement setStatus() method.
+        return $this->setData("status", $status);
     }
 
     /**
@@ -79,7 +79,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function getPosition()
     {
-        // TODO: Implement getPosition() method.
+        return $this->getData("position");
     }
 
     /**
@@ -88,7 +88,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
      */
     public function setPosition($position)
     {
-        // TODO: Implement setPosition() method.
+        return $this->setData("position", $position);
     }
 
     /**

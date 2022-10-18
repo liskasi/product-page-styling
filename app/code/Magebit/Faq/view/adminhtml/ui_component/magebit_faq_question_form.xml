@@ -23,18 +23,17 @@
 
     <dataSource name="magebit_faq_question_listing_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="class" xsi:type="string">Magebit\Faq\Model\Question\DataProvider</argument>
             <argument name="name" xsi:type="string">magebit_faq_question_listing_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
-            <argument name="questionRepository" xsi:type="object">Magebit\Faq\Model\QuestionRepository</argument>
-            <argument name="question" xsi:type="object">Magebit\Faq\Model\Question</argument>
+<!--            <argument name="collection" xsi:type="string">Magebit\Faq\ResourceModel\Question\Collection</argument>-->
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
 <!--                    <item name="questionRepository" xsi:type="object">Magebit\Faq\Model\QuestionRepository</item>-->
 <!--                    <item name="question" xsi:type="object">Magebit\Faq\Model\Question</item>-->
-                    <item name="submit_url" xsi:type="url" path="magebit_faq/question/save" />
+                    <item name="submit_url" xsi:type="url" path="*/*/save" />
                 </item>
             </argument>
         </argument>
@@ -54,7 +53,7 @@
             </item>
         </argument>
 
-        <field name="checkbox_toggle" component="Magento_Ui/js/form/element/single-checkbox-toggle-notice" formElement="checkbox">
+        <field name="status" component="Magento_Ui/js/form/element/single-checkbox-toggle-notice" formElement="checkbox">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="default" xsi:type="number">0</item>
