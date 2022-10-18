@@ -3,8 +3,9 @@
 namespace Magebit\Faq\Model\ResourceModel\Question;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult;
 
-class Collection extends AbstractCollection
+class Collection extends SearchResult
 {
     protected function _construct()
     {
