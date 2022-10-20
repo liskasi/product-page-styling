@@ -1,6 +1,18 @@
 <?php
 $enabledQuestions = $block->getAllEnabledQuestions();
-var_dump($enabledQuestions);
 ?>
 
+<div class="faq" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
 
+<?php foreach ($enabledQuestions as $question) : ?>
+    <div data-role="collapsible">
+        <div data-role="trigger" class="question-title">
+            <p class="title"><?= $question->getQuestion(); ?></p>
+        </div>
+    </div>
+    <div data-role="content">
+        <p class="answer"><?= $question->getAnswer(); ?></p>
+    </div>
+
+<?php endforeach; ?>
+</div>

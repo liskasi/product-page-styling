@@ -1,7 +1,9 @@
 <?php
 namespace Magebit\Faq\Api\Data;
 
-interface QuestionSearchResultsInterface
+use Magento\Framework\Api\SearchResultsInterface;
+
+interface QuestionSearchResultsInterface extends SearchResultsInterface
 {
 
 }

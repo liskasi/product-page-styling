@@ -5,6 +5,8 @@ namespace Magebit\Faq\Model;
 use Magebit\Faq\Api\QuestionRepositoryInterface;
 use Magebit\Faq\Model\ResourceModel\Question as ResourceQuestion;
 use Magebit\Faq\Model\ResourceModel\Question\CollectionFactory;
+use Magento\Framework\Api\Search\SearchResultInterfaceFactory;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 
 class QuestionRepository implements QuestionRepositoryInterface
 {
@@ -17,12 +19,26 @@ class QuestionRepository implements QuestionRepositoryInterface
      */
     protected $collectionFactory;
 
+    /**
+     * @var CollectionProcessorInterface
+     */
+    private $collectionProcessor;
+
+    /**
+     * @var SearchResultInterfaceFactory
+     */
+    protected $searchResultsFactory;
+
     public function __construct(
         ResourceQuestion $resource,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        CollectionProcessorInterface $collectionProcessor,
+        SearchResultInterfaceFactory $searchResultInterfaceFactory
     ) {
         $this->resource = $resource;
         $this->collectionFactory = $collectionFactory;
+        $this->collectionProcessor = $collectionProcessor;
+        $this->searchResultsFactory = $searchResultInterfaceFactory;
     }
     /**
      * @inheritDoc
@@ -68,8 +84,18 @@ class QuestionRepository implements QuestionRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria)
     {
-        // TODO: Implement getList() method.
+        $collection = $this->collectionFactory->create();
+
+        $this->collectionProcessor->process($criteria, $collection);
+        $this->log($criteria, "asdasd");
+        $searchResults = $this->searchResultsFactory->create();
+        $this->log($searchResults, "searchResults");
+        $searchResults->setSearchCriteria($criteria);
+        $searchResults->setItems($collection->getItems());
+        $searchResults->setTotalCount($collection->getSize());
+        $this->log($searchResults, "searchResultsEmdd");
+        return $searchResults;
     }
 }
