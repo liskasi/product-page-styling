@@ -14,9 +14,18 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
 //
 //    protected $_eventPrefix = 'magebit_faq_question';
 
+
+    public const STATUS_ENABLED = 1;
+    public const STATUS_DISABLED = 0;
+
     protected function _construct()
     {
         $this->_init('Magebit\Faq\Model\ResourceModel\Question');
+    }
+
+    public function getId()
+    {
+        return $this->getData("id");
     }
 
     public function getQuestion()
@@ -97,5 +106,15 @@ class Question extends \Magento\Framework\Model\AbstractModel implements
     public function getUpdatedAt()
     {
         // TODO: Implement getUpdatedAt() method.
+    }
+
+    /**
+     * Prepare block's statuses.
+     *
+     * @return array
+     */
+    public function getAvailableStatuses()
+    {
+        return [self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled')];
     }
 }

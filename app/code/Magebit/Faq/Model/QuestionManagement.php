@@ -6,19 +6,16 @@ use Magebit\Faq\Api\QuestionManagementInterface;
 
 class QuestionManagement implements QuestionManagementInterface
 {
-    /**
-     * @return mixed
-     */
-    public function enableQuestion()
+
+    public function enableQuestion($question)
     {
-        // TODO: Implement enableQuestion() method.
+        $question->setData("status", 1);
+        $question->save();
     }
 
-    /**
-     * @return mixed
-     */
-    public function disableQuestion()
+    public function disableQuestion($question)
     {
-        // TODO: Implement disableQuestion() method.
+        $question->setData("status", 0);
+        $question->save();
     }
 }

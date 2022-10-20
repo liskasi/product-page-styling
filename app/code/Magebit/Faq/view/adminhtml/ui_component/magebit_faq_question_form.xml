@@ -7,44 +7,36 @@
 -->
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="js_config" xsi:type="array">
             <item name="provider" xsi:type="string">magebit_faq_question_form.magebit_faq_question_listing_data_source</item>
-            <item name="deps" xsi:type="string">magebit_faq_question_form.magebit_faq_question_listing_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">FAQ Question</item>
-        <item name="layout" xsi:type="array">
-            <item name="type" xsi:type="string">tabs</item>
-        </item>
-        <item name="buttons" xsi:type="array">
-            <item name="save" xsi:type="string">Magebit\Faq\Ui\Component\Form\Button\Save</item>
-            <item name="back" xsi:type="string">Magebit\Faq\Ui\Component\Form\Button\Back</item>
-        </item>
     </argument>
-
+    <settings>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>magebit_faq_question_form.magebit_faq_question_listing_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="save" class="Magebit\Faq\Ui\Component\Form\Button\Save" />
+            <button name="back" class="Magebit\Faq\Ui\Component\Form\Button\Back" />
+        </buttons>
+        <namespace>magebit_faq_question_form</namespace>
+    </settings>
     <dataSource name="magebit_faq_question_listing_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">Magebit\Faq\Model\Question\DataProvider</argument>
             <argument name="name" xsi:type="string">magebit_faq_question_listing_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
-<!--            <argument name="collection" xsi:type="string">Magebit\Faq\ResourceModel\Question\Collection</argument>-->
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
-<!--                    <item name="questionRepository" xsi:type="object">Magebit\Faq\Model\QuestionRepository</item>-->
-<!--                    <item name="question" xsi:type="object">Magebit\Faq\Model\Question</item>-->
                     <item name="submit_url" xsi:type="url" path="*/*/save" />
                 </item>
             </argument>
         </argument>
-<!--        <argument name="data" xsi:type="array">-->
-<!--            <item name="js_config" xsi:type="array">-->
-<!--                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>-->
-<!--                <item name="submit_url" xsi:type="url" path="magebit_faq/question/save" />-->
-<!--                <item name="questionRepository" xsi:type="object">Magebit\Faq\Model\QuestionRepository</item>-->
-<!--                <item name="question" xsi:type="object">Magebit\Faq\Model\Question</item>-->
-<!--            </item>-->
-<!--        </argument>-->
     </dataSource>
     <fieldset name="magebit_faq_fieldset">
         <argument name="data" xsi:type="array">
@@ -113,7 +105,7 @@
                     <item name="label" xsi:type="string">Answer</item>
                     <item name="visible" xsi:type="boolean">true</item>
                     <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
                     <!--                    <item name="source" xsi:type="string">magebit_faq</item>-->
                     <item name="validation" xsi:type="array">
                         <item name="required-entry" xsi:type="boolean">true</item>

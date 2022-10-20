@@ -19,31 +19,31 @@ interface QuestionRepositoryInterface
     /**
      * Get info about product by product SKU
      *
-     * @param string $sku
+     * @param string $id
      * @param bool $editMode
      * @param int|null $storeId
      * @param bool $forceReload
      * @return \Magebit\Faq\Api\Data\QuestionInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($sku, $editMode = false, $storeId = null, $forceReload = false);
+    public function get($id, $editMode = false, $storeId = null, $forceReload = false);
 
     /**
      * Delete product
      *
-     * @param \Magebit\Faq\Api\Data\QuestionInterface $question
+     * @param \Magento\Framework\Model\AbstractModel $question
      * @return bool Will returned True if deleted
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function delete(\Magebit\Faq\Api\Data\QuestionInterface  $question);
+    public function delete(\Magento\Framework\Model\AbstractModel  $question);
 
     /**
-     * @param string $sku
+     * @param string $id
      * @return bool Will returned True if deleted
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function deleteById($sku);
+    public function deleteById($id);
 
     /**
      * Get product list

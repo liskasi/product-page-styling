@@ -11,17 +11,39 @@ class Save extends Action
      */
     public function execute()
     {
-        $data = $this->getRequest()->getParam("magebit_faq_fieldset");
-        $question = $data["question"];
-        $answer = $data["answer"];
-        $status = $data["status"];
+        $redirectBack = $this->getRequest()->getParam('back', false);
+        $resultRedirect = $this->resultRedirectFactory->create();
 
-        $object = $this->_objectManager->create(\Magebit\Faq\Model\Question::class);
+        $this->log($this->getRequest()->getParams(), "hillowagainw");
+
+        $id = $this->getRequest()->getParam('id', false);
+
+        $question = $this->getRequest()->getParam("question");
+        $answer = $this->getRequest()->getParam("answer");
+        $status = $this->getRequest()->getParam("status");
+
+
+        if ($id) {
+            $object = $this->_objectManager->create(\Magebit\Faq\Model\QuestionRepository::class)->get($id);
+        } else {
+            $object = $this->_objectManager->create(\Magebit\Faq\Model\Question::class);
+        }
         $object->setQuestion($question);
         $object->setAnswer($answer);
         $object->setStatus($status);
         $object->save();
 
-        return $this->resultRedirectFactory->create()->setPath('magebit_faq/question/index');
+        if ($redirectBack === "close") {
+            return $resultRedirect->setPath('magebit_faq/question/index');
+        }
+        return $resultRedirect->setPath('*/*/edit', ['id' => $object->getId()]);
+    }
+
+
+    private function log($arrayData, $message)
+    {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $logger = $objectManager->create('\Psr\Log\LoggerInterface');
+        $logger->info("\n\n\n\n\n\n\n $message$", (array)$arrayData);
     }
 }
