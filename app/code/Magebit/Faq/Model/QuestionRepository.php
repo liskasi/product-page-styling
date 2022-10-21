@@ -1,13 +1,39 @@
 <?php
+/**
+ * This file is part of the Magebit Faq package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2019 Magebit, Ltd. (https://vendor.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Magebit\Faq\Model;
 
+use Exception;
+use Magebit\Faq\Api\Data\QuestionSearchResultsInterface;
 use Magebit\Faq\Api\QuestionRepositoryInterface;
 use Magebit\Faq\Model\ResourceModel\Question as ResourceQuestion;
 use Magebit\Faq\Model\ResourceModel\Question\CollectionFactory;
 use Magento\Framework\Api\Search\SearchResultInterfaceFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Model\AbstractModel;
+use Magebit\Faq\Api\Data\QuestionInterface;
 
+/**
+ * Question repository
+ */
 class QuestionRepository implements QuestionRepositoryInterface
 {
     /**
@@ -42,60 +68,70 @@ class QuestionRepository implements QuestionRepositoryInterface
     }
     /**
      * @inheritDoc
+     * @throws CouldNotSaveException
      */
-    public function save(\Magebit\Faq\Api\Data\QuestionInterface $question, $saveOptions = false)
+    public function save(QuestionInterface $question, bool $saveOptions = false)
     {
-        $this->resource->save($question);
+        try {
+            $this->resource->save($question);
+        } catch (AlreadyExistsException $e) {
+            throw new CouldNotSaveException(
+                __('Could not save the page: %1', $e->getMessage()),
+                $e
+            );
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function get($id, $editMode = false, $storeId = null, $forceReload = false)
+    public function get(int $id)
     {
-        $question = $this->collectionFactory->create();
-        return $question->getItemById($id);
-    }
-
-    private function log($arrayData, $message)
-    {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $logger = $objectManager->create('\Psr\Log\LoggerInterface');
-        $logger->info("\n\n\n\n\n\n\n $message$", (array)$arrayData);
+        $questionCollection = $this->collectionFactory->create();
+        $question = $questionCollection->getItemById($id);
+        if (!$question) {
+            throw new NoSuchEntityException(__('The Question with the "%1" ID doesn\'t exist.', $id));
+        }
+        return $question;
     }
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
-    public function delete(\Magento\Framework\Model\AbstractModel $question)
+    public function delete(AbstractModel $question): bool
     {
-        $this->resource->delete($question);
+        try {
+            $this->resource->delete($question);
+        } catch (Exception $exception) {
+            throw new CouldNotDeleteException(
+                __('Could not delete the question: %1', $exception->getMessage())
+            );
+        }
         return true;
     }
 
     /**
      * @inheritDoc
      */
-    public function deleteById($id)
+    public function deleteById(string $id): bool
     {
-        //
+        $this->delete($this->get($id));
+        return true;
     }
 
     /**
      * @inheritDoc
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria)
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
         $collection = $this->collectionFactory->create();
 
-        $this->collectionProcessor->process($criteria, $collection);
-        $this->log($criteria, "asdasd");
+        $this->collectionProcessor->process($searchCriteria, $collection);
         $searchResults = $this->searchResultsFactory->create();
-        $this->log($searchResults, "searchResults");
-        $searchResults->setSearchCriteria($criteria);
+        $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
-        $this->log($searchResults, "searchResultsEmdd");
         return $searchResults;
     }
 }

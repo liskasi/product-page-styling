@@ -1,56 +1,80 @@
 <?php
+/**
+ * This file is part of the Magebit Faq package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2019 Magebit, Ltd. (https://vendor.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Magebit\Faq\Api;
 
+use Magebit\Faq\Api\Data\QuestionInterface;
+use Magebit\Faq\Api\Data\QuestionSearchResultsInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\Model\AbstractModel;
+
+/**
+ * Question CRUD interface
+ */
 interface QuestionRepositoryInterface
 {
     /**
-     * Create product
+     * Create question
      *
-     * @param \Magebit\Faq\Api\Data\QuestionInterface $question
+     * @param QuestionInterface $question
      * @param bool $saveOptions
-     * @return \Magebit\Faq\Api\Data\QuestionInterface
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\StateException
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @return void
+     * @throws InputException
+     * @throws StateException
+     * @throws CouldNotSaveException
      */
-    public function save(\Magebit\Faq\Api\Data\QuestionInterface  $question, $saveOptions = false);
+    public function save(QuestionInterface $question, bool $saveOptions = false);
 
     /**
-     * Get info about product by product SKU
+     * Get info about question by product id
+     *
+     * @param int $id
+     * @return QuestionInterface
+     * @throws NoSuchEntityException
+     */
+    public function get(int $id);
+
+    /**
+     * Delete question
+     *
+     * @param AbstractModel $question
+     * @return bool Will returned True if deleted
+     * @throws StateException
+     */
+    public function delete(AbstractModel $question): bool;
+
+    /**
+     * Delete qyestion by id
      *
      * @param string $id
-     * @param bool $editMode
-     * @param int|null $storeId
-     * @param bool $forceReload
-     * @return \Magebit\Faq\Api\Data\QuestionInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function get($id, $editMode = false, $storeId = null, $forceReload = false);
-
-    /**
-     * Delete product
-     *
-     * @param \Magento\Framework\Model\AbstractModel $question
      * @return bool Will returned True if deleted
-     * @throws \Magento\Framework\Exception\StateException
+     * @throws NoSuchEntityException
+     * @throws StateException
      */
-    public function delete(\Magento\Framework\Model\AbstractModel  $question);
+    public function deleteById(string $id): bool;
 
     /**
-     * @param string $id
-     * @return bool Will returned True if deleted
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\StateException
-     */
-    public function deleteById($id);
-
-    /**
-     * Get product list
+     * Get question list
      *
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magebit\Faq\Api\Data\QuestionSearchResultsInterface
+     * @param SearchCriteriaInterface $searchSearchCriteria
+     * @return QuestionSearchResultsInterface
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
-
+    public function getList(SearchCriteriaInterface $searchSearchCriteria);
 }

@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * This file is part of the Magebit Faq package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2019 Magebit, Ltd. (https://vendor.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
@@ -31,11 +47,6 @@
                 </item>
             </argument>
         </argument>
-<!--        <argument name="data" xsi:type="array">-->
-<!--            <item name="js_config" xsi:type="array">-->
-<!--                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>-->
-<!--            </item>-->
-<!--        </argument>-->
     </dataSource>
     <listingToolbar name="listing_top">
         <bookmark name="bookmarks"/>
@@ -78,20 +89,6 @@
                 </settings>
             </action>
         </massaction>
-<!--        <filters name="listing_filters">-->
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="templates" xsi:type="array">-->
-<!--                        <item name="filters" xsi:type="array">-->
-<!--                            <item name="select" xsi:type="array">-->
-<!--                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>-->
-<!--                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>-->
-<!--                            </item>-->
-<!--                        </item>-->
-<!--                    </item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--        </filters>-->
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="magebit_faq_question_columns">
@@ -182,14 +179,6 @@
             <settings>
                 <label translate="true">Actions</label>
             </settings>
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="resizeEnabled" xsi:type="boolean">false</item>-->
-<!--                    <item name="resizeDefaultWidth" xsi:type="string">107</item>-->
-<!--                    <item name="indexField" xsi:type="string">entity_id</item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--            <argument name="viewUrl" xsi:type="string">catalog/category/view</argument>-->
         </actionsColumn>
     </columns>
 </listing>

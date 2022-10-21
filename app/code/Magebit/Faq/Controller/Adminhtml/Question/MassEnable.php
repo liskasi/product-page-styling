@@ -1,13 +1,33 @@
 <?php
+/**
+ * This file is part of the Magebit Faq package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2019 Magebit, Ltd. (https://vendor.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Magebit\Faq\Model\QuestionManagement;
 use Magebit\Faq\Model\ResourceModel\Question\CollectionFactory;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
 
-class MassEnable extends \Magento\Backend\App\Action
+/**
+ * Mass enable action
+ */
+class MassEnable extends Action
 {
     /**
      * @var Filter
@@ -23,7 +43,6 @@ class MassEnable extends \Magento\Backend\App\Action
      * @var QuestionManagement
      */
     protected $questionManagement;
-
 
     /**
      * @param Context $context
@@ -44,18 +63,21 @@ class MassEnable extends \Magento\Backend\App\Action
     }
     /**
      * @inheritDoc
+     * @throws LocalizedException
      */
     public function execute()
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());
+        $questionEnabled = 0;
 
         foreach ($collection as $question) {
             $this->questionManagement->enableQuestion($question);
+            $questionEnabled++;
         }
 
-        $this->messageManager->addSuccess(__('A total of %1 record(s) have been enabled.', $collection->getSize()));
+        $this->messageManager->addSuccess(__('A total of %1 record(s) have been enabled.', $questionEnabled));
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         return $resultRedirect->setPath('*/*/');
     }

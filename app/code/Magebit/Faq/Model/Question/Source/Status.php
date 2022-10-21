@@ -1,25 +1,38 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * This file is part of the Magebit Faq package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2019 Magebit, Ltd. (https://vendor.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace Magebit\Faq\Model\Question\Source;
 
+use Magebit\Faq\Model\Question;
 use Magento\Framework\Data\OptionSourceInterface;
 
+/**
+ * Class Question Status
+ */
 class Status implements OptionSourceInterface
 {
     /**
-     * @var \Magebit\Faq\Model\Question
+     * @var Question
      */
     protected $question;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Cms\Model\Block $cmsBlock
+     * @param Question $question
      */
-    public function __construct(\Magebit\Faq\Model\Question $question)
+    public function __construct(Question $question)
     {
         $this->question = $question;
     }

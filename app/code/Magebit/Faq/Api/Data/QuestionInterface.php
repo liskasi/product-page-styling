@@ -1,32 +1,48 @@
 <?php
+/**
+ * This file is part of the Magebit Faq package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2019 Magebit, Ltd. (https://vendor.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Magebit\Faq\Api\Data;
 
+/**
+ * Question entity model
+ */
 interface QuestionInterface
 {
     /**#@+
-     * Constants defined for keys of data array
+     * Database table fields
      */
-    const ID = 'id';
+    public const ID = 'id';
 
-    const QUESTION = 'question';
+    public const QUESTION = 'question';
 
-    const ANSWER = 'answer';
+    public const ANSWER = 'answer';
 
-    const STATUS = 'status';
+    public const STATUS = 'status';
 
-    const POSITION = 'position';
+    public const POSITION = 'position';
 
-    const UPDATED_AT = 'updated_at';
+    public const UPDATED_AT = 'updated_at';
+    /**#@-*/
 
-    const ATTRIBUTES = [
-        self::ID,
-        self::QUESTION,
-        self::ANSWER,
-        self::STATUS,
-        self::POSITION,
-        self::UPDATED_AT
-    ];
+    /**#@+
+     * Question status
+     */
+    public const STATUS_ENABLED = 1;
+
+    public const STATUS_DISABLED = 0;
     /**#@-*/
 
     /**
@@ -37,70 +53,74 @@ interface QuestionInterface
     public function getId();
 
     /**
-     * Question
+     * Get question
      *
-     * @return string
+     * @return string|null
      */
-    public function getQuestion();
+    public function getQuestion(): ?string;
 
     /**
      * Set question
      *
      * @param string $question
-     * @return $this
+     * @return QuestionInterface
      */
-    public function setQuestion($question);
+    public function setQuestion(string $question): QuestionInterface;
 
     /**
-     * Question answer
+     * Get question answer
      *
-     * @return string
+     * @return string|null
      */
-    public function getAnswer();
+    public function getAnswer(): ?string;
 
     /**
      * Set question answer
      *
      * @param string $answer
-     * @return $this
+     * @return QuestionInterface
      */
-    public function setAnswer($answer);
+    public function setAnswer(string $answer): QuestionInterface;
 
     /**
-     * Question status
+     * Get question status
      *
-     * @return int
+     * @return int|null
      */
-    public function getStatus();
+    public function getStatus(): ?int;
 
     /**
      * Set question status
      *
      * @param int $status
-     * @return $this
+     * @return QuestionInterface
      */
-    public function setStatus($status);
+    public function setStatus(int $status): QuestionInterface;
 
     /**
-     * Question position
+     * Get question position
      *
      * @return int|null
      */
-    public function getPosition();
+    public function getPosition(): ?int;
 
     /**
      * Set question position
      *
      * @param int $position
-     * @return $this
+     * @return QuestionInterface
      */
-    public function setPosition($position);
+    public function setPosition(int $position): QuestionInterface;
 
     /**
-     * Question updated date
+     * Get question updated date
      *
      * @return string|null
      */
-    public function getUpdatedAt();
+    public function getUpdatedAt(): ?string;
 
+    /**
+     * @return array
+     */
+    public function getAvailableStatuses(): array;
 }
