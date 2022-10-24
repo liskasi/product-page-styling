@@ -16,7 +16,7 @@
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
-use Magebit\Faq\Model\QuestionRepository;
+use Magebit\Faq\Api\QuestionRepositoryInterfaceFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
@@ -29,17 +29,17 @@ use Magento\Framework\Exception\StateException;
 class Delete extends Action
 {
     /**
-     * @var QuestionRepository
+     * @var QuestionRepositoryInterfaceFactory
      */
     protected $questionRepository;
 
     /**
      * @param Context $context
-     * @param QuestionRepository $questionRepository
+     * @param QuestionRepositoryInterfaceFactory $questionRepository
      */
     public function __construct(
         Context $context,
-        QuestionRepository $questionRepository
+        QuestionRepositoryInterfaceFactory $questionRepository
     ) {
         parent::__construct($context);
         $this->questionRepository = $questionRepository;
@@ -57,8 +57,8 @@ class Delete extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
 
         if ($id) {
-            $question = $this->questionRepository->get($id);
-            $this->questionRepository->delete($question);
+            $question = $this->questionRepository->create()->get($id);
+            $this->questionRepository->create()->delete($question);
         }
         return $resultRedirect->setPath('*/*/index');
     }

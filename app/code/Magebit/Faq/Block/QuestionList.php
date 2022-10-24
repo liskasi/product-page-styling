@@ -16,8 +16,8 @@
 
 namespace Magebit\Faq\Block;
 
-use Magebit\Faq\Model\Question;
-use Magebit\Faq\Model\QuestionRepository;
+use Magebit\Faq\Api\Data\QuestionInterfaceFactory;
+use Magebit\Faq\Api\QuestionRepositoryInterfaceFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\View\Element\Template;
@@ -29,12 +29,12 @@ use Magento\Framework\View\Element\Template\Context;
 class QuestionList extends Template
 {
     /**
-     * @var QuestionRepository
+     * @var QuestionRepositoryInterfaceFactory
      */
     protected $questionRepository;
 
     /**
-     * @var Question
+     * @var QuestionInterfaceFactory
      */
     protected $question;
 
@@ -49,17 +49,17 @@ class QuestionList extends Template
     private $sortOrderBuilder;
 
     /**
-     * @param QuestionRepository $questionRepository
+     * @param QuestionRepositoryInterfaceFactory $questionRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param Question $question
+     * @param QuestionInterfaceFactory $question
      * @param Context $context
      * @param SortOrderBuilder $sortOrderBuilder
      * @param array $data
      */
     public function __construct(
-        QuestionRepository $questionRepository,
+        QuestionRepositoryInterfaceFactory $questionRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        Question $question,
+        QuestionInterfaceFactory $question,
         Context $context,
         SortOrderBuilder $sortOrderBuilder,
         array $data = []
@@ -89,13 +89,14 @@ class QuestionList extends Template
      */
     protected function setSearchCriteriaAndSortOrder()
     {
+        $question = $this->question->create();
         $sortOrder = $this->sortOrderBuilder
-            ->setField($this->question::POSITION)
+            ->setField($question::POSITION)
             ->setDirection('ASC')
             ->create();
 
         return $this->search
-            ->addFilter($this->question::STATUS, (string)$this->question::STATUS_ENABLED)
+            ->addFilter($question::STATUS, (string)$question::STATUS_ENABLED)
             ->addSortOrder($sortOrder);
     }
 
@@ -107,6 +108,6 @@ class QuestionList extends Template
      */
     public function getQuestions(SearchCriteriaBuilder $questionSearchResults)
     {
-        return $this->questionRepository->getList($questionSearchResults->create())->getItems();
+        return $this->questionRepository->create()->getList($questionSearchResults->create())->getItems();
     }
 }

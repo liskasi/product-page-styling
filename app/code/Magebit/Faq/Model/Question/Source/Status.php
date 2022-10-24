@@ -16,7 +16,7 @@
 
 namespace Magebit\Faq\Model\Question\Source;
 
-use Magebit\Faq\Model\Question;
+use Magebit\Faq\Api\Data\QuestionInterfaceFactory;
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
@@ -25,14 +25,14 @@ use Magento\Framework\Data\OptionSourceInterface;
 class Status implements OptionSourceInterface
 {
     /**
-     * @var Question
+     * @var QuestionInterfaceFactory
      */
     protected $question;
 
     /**
-     * @param Question $question
+     * @param QuestionInterfaceFactory $question
      */
-    public function __construct(Question $question)
+    public function __construct(QuestionInterfaceFactory $question)
     {
         $this->question = $question;
     }
@@ -60,6 +60,7 @@ class Status implements OptionSourceInterface
      */
     public function getAvailableStatuses()
     {
-        return [$this->question::STATUS_ENABLED => __('Enabled'), $this->question::STATUS_DISABLED => __('Disabled')];
+        $question = $this->question->create();
+        return [$question::STATUS_ENABLED => __('Enabled'), $question::STATUS_DISABLED => __('Disabled')];
     }
 }

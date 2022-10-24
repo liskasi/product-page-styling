@@ -17,7 +17,7 @@
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Magebit\Faq\Model\ResourceModel\Question\CollectionFactory;
-use Magebit\Faq\Model\QuestionRepository;
+use Magebit\Faq\Api\QuestionRepositoryInterfaceFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException;
@@ -39,7 +39,7 @@ class MassDelete extends Action
     protected $collectionFactory;
 
     /**
-     * @var QuestionRepository
+     * @var QuestionRepositoryInterfaceFactory
      */
     private $questionRepository;
 
@@ -47,13 +47,13 @@ class MassDelete extends Action
      * @param Context $context
      * @param Filter $filter
      * @param CollectionFactory $collectionFactory
-     * @param QuestionRepository $questionRepository
+     * @param QuestionRepositoryInterfaceFactory $questionRepository
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        QuestionRepository $questionRepository
+        QuestionRepositoryInterfaceFactory $questionRepository
     ) {
         parent::__construct($context);
         $this->filter = $filter;
@@ -70,7 +70,7 @@ class MassDelete extends Action
         $questionDeleted = 0;
 
         foreach ($collection as $question) {
-            $this->questionRepository->delete($question);
+            $this->questionRepository->create()->delete($question);
             $questionDeleted++;
         }
 

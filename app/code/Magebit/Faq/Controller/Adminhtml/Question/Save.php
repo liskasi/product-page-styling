@@ -17,7 +17,7 @@
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Magebit\Faq\Api\Data\QuestionInterfaceFactory;
-use Magebit\Faq\Model\QuestionRepository;
+use Magebit\Faq\Api\QuestionRepositoryInterfaceFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 
@@ -27,7 +27,7 @@ use Magento\Backend\App\Action\Context;
 class Save extends Action
 {
     /**
-     * @var QuestionRepository
+     * @var QuestionRepositoryInterfaceFactory
      */
     protected $questionRepository;
 
@@ -39,12 +39,12 @@ class Save extends Action
     /**
      * @param Context $context
      * @param QuestionInterfaceFactory $question
-     * @param QuestionRepository $questionRepository
+     * @param QuestionRepositoryInterfaceFactory $questionRepository
      */
     public function __construct(
         Context $context,
         QuestionInterfaceFactory $question,
-        QuestionRepository $questionRepository,
+        QuestionRepositoryInterfaceFactory $questionRepository,
     ) {
         parent::__construct($context);
         $this->questionRepository = $questionRepository;
@@ -64,12 +64,14 @@ class Save extends Action
         $answer = $this->getRequest()->getParam('answer');
         $status = $this->getRequest()->getParam('status');
 
-        $questionObject = $id ? $this->questionRepository->get($id) : $this->question->create();
+        $questionRepository = $this->questionRepository->create();
+
+        $questionObject = $id ? $questionRepository->get($id) : $this->question->create();
 
         $questionObject->setQuestion($question);
         $questionObject->setAnswer($answer);
         $questionObject->setStatus($status);
-        $this->questionRepository->save($questionObject);
+        $questionRepository->save($questionObject);
 
         if ($redirectBack === 'close') {
             return $resultRedirect->setPath('magebit_faq/question/index');

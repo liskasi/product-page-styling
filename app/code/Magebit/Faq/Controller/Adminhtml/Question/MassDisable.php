@@ -17,7 +17,7 @@
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Exception;
-use Magebit\Faq\Model\QuestionManagement;
+use Magebit\Faq\Api\QuestionManagementInterfaceFactory;
 use Magebit\Faq\Model\ResourceModel\Question\CollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -41,7 +41,7 @@ class MassDisable extends Action
     protected $collectionFactory;
 
     /**
-     * @var QuestionManagement
+     * @var QuestionManagementInterfaceFactory
      */
     protected $questionManagement;
 
@@ -49,13 +49,13 @@ class MassDisable extends Action
      * @param Context $context
      * @param Filter $filter
      * @param CollectionFactory $collectionFactory
-     * @param QuestionManagement $questionManagement
+     * @param QuestionManagementInterfaceFactory $questionManagement
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        QuestionManagement $questionManagement
+        QuestionManagementInterfaceFactory $questionManagement
     ) {
         parent::__construct($context);
         $this->filter = $filter;
@@ -74,7 +74,7 @@ class MassDisable extends Action
         $questionDisabled = 0;
 
         foreach ($collection as $question) {
-            $this->questionManagement->disableQuestion($question);
+            $this->questionManagement->create()->disableQuestion($question);
             $questionDisabled++;
         }
 

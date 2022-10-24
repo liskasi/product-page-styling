@@ -17,8 +17,8 @@
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Exception;
-use Magebit\Faq\Model\Question;
-use Magebit\Faq\Model\QuestionRepository;
+use Magebit\Faq\Api\Data\QuestionInterfaceFactory;
+use Magebit\Faq\Api\QuestionRepositoryInterfaceFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\Json;
@@ -35,19 +35,19 @@ class InlineEdit extends Action
     protected $jsonFactory;
 
     /**
-     * @var QuestionRepository
+     * @var QuestionRepositoryInterfaceFactory
      */
     protected $questionRepository;
 
     /**
      * @param Context $context
      * @param JsonFactory $jsonFactory
-     * @param QuestionRepository $questionRepository
+     * @param QuestionRepositoryInterfaceFactory $questionRepository
      */
     public function __construct(
         Context $context,
         JsonFactory $jsonFactory,
-        QuestionRepository $questionRepository
+        QuestionRepositoryInterfaceFactory $questionRepository
     ) {
         parent::__construct($context);
         $this->jsonFactory = $jsonFactory;
@@ -72,10 +72,10 @@ class InlineEdit extends Action
             } else {
                 foreach (array_keys($questionItems) as $questionId) {
                     try {
-                        /** @var Question $question */
-                        $question = $this->questionRepository->get($questionId);
+                        /** @var QuestionInterfaceFactory $question */
+                        $question = $this->questionRepository->create()->get($questionId);
                         $question->setData(array_merge($question->getData(), $questionItems[$questionId]));
-                        $this->questionRepository->save($question);
+                        $this->questionRepository->create()->save($question);
                     } catch (Exception $e) {
                         $messages[] = [
                             $question,
