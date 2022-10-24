@@ -16,7 +16,7 @@
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
-use Magebit\Faq\Model\Question;
+use Magebit\Faq\Api\Data\QuestionInterfaceFactory;
 use Magebit\Faq\Model\QuestionRepository;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -32,18 +32,18 @@ class Save extends Action
     protected $questionRepository;
 
     /**
-     * @var Question
+     * @var QuestionInterfaceFactory
      */
     protected $question;
 
     /**
      * @param Context $context
-     * @param Question $question
+     * @param QuestionInterfaceFactory $question
      * @param QuestionRepository $questionRepository
      */
     public function __construct(
         Context $context,
-        Question $question,
+        QuestionInterfaceFactory $question,
         QuestionRepository $questionRepository,
     ) {
         parent::__construct($context);
@@ -64,7 +64,7 @@ class Save extends Action
         $answer = $this->getRequest()->getParam('answer');
         $status = $this->getRequest()->getParam('status');
 
-        $questionObject = $id ? $this->questionRepository->get($id) : $this->question;
+        $questionObject = $id ? $this->questionRepository->get($id) : $this->question->create();
 
         $questionObject->setQuestion($question);
         $questionObject->setAnswer($answer);
