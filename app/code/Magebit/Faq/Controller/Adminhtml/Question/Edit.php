@@ -18,6 +18,7 @@ namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Magebit\Faq\Model\QuestionRepository;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Registry;
@@ -41,17 +42,25 @@ class Edit extends Action implements HttpGetActionInterface
     protected $resultPageFactory;
 
     /**
-     * @param Action\Context $context
+     * @var QuestionRepository
+     */
+    protected $questionRepository;
+
+    /**
+     * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Registry $registry
+     * @param QuestionRepository $questionRepository
      */
     public function __construct(
         Action\Context $context,
         PageFactory $resultPageFactory,
-        Registry $registry
+        Registry $registry,
+        QuestionRepository $questionRepository
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->_coreRegistry = $registry;
+        $this->questionRepository = $questionRepository;
         parent::__construct($context);
     }
 
@@ -73,9 +82,8 @@ class Edit extends Action implements HttpGetActionInterface
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
-        $questionRepository = $this->_objectManager->get(QuestionRepository::class);
 
-        $question = $questionRepository->get($id);
+        $question = $this->questionRepository->get($id);
 
         if (!$question) {
             $this->messageManager->addErrorMessage(__('This page no longer exists.'));

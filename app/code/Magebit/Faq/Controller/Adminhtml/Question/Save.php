@@ -16,13 +16,40 @@
 
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
+use Magebit\Faq\Model\Question;
+use Magebit\Faq\Model\QuestionRepository;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 
 /**
  * Save action
  */
 class Save extends Action
 {
+    /**
+     * @var QuestionRepository
+     */
+    protected $questionRepository;
+
+    /**
+     * @var Question
+     */
+    protected $question;
+
+    /**
+     * @param Context $context
+     * @param Question $question
+     * @param QuestionRepository $questionRepository
+     */
+    public function __construct(
+        Context $context,
+        Question $question,
+        QuestionRepository $questionRepository,
+    ) {
+        parent::__construct($context);
+        $this->questionRepository = $questionRepository;
+        $this->question = $question;
+    }
     /**
      * @inheritDoc
      */
@@ -37,20 +64,16 @@ class Save extends Action
         $answer = $this->getRequest()->getParam('answer');
         $status = $this->getRequest()->getParam('status');
 
+        $questionObject = $id ? $this->questionRepository->get($id) : $this->question;
 
-        if ($id) {
-            $object = $this->_objectManager->create(\Magebit\Faq\Model\QuestionRepository::class)->get($id);
-        } else {
-            $object = $this->_objectManager->create(\Magebit\Faq\Model\Question::class);
-        }
-        $object->setQuestion($question);
-        $object->setAnswer($answer);
-        $object->setStatus($status);
-        $object->save();
+        $questionObject->setQuestion($question);
+        $questionObject->setAnswer($answer);
+        $questionObject->setStatus($status);
+        $this->questionRepository->save($questionObject);
 
         if ($redirectBack === 'close') {
             return $resultRedirect->setPath('magebit_faq/question/index');
         }
-        return $resultRedirect->setPath('*/*/edit', ['id' => $object->getId()]);
+        return $resultRedirect->setPath('*/*/edit', ['id' => $questionObject->getId()]);
     }
 }

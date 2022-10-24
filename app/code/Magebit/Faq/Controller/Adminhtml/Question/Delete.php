@@ -20,6 +20,8 @@ use Magebit\Faq\Model\QuestionRepository;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 /**
  * Delete question action
@@ -27,20 +29,36 @@ use Magento\Backend\Model\View\Result\Redirect;
 class Delete extends Action
 {
     /**
+     * @var QuestionRepository
+     */
+    protected $questionRepository;
+
+    /**
+     * @param Context $context
+     * @param QuestionRepository $questionRepository
+     */
+    public function __construct(
+        Context $context,
+        QuestionRepository $questionRepository
+    ) {
+        parent::__construct($context);
+        $this->questionRepository = $questionRepository;
+    }
+
+    /**
      * @inheritDoc
+     * @throws StateException|NoSuchEntityException
      */
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
 
-        $questionRepository = $this->_objectManager->create(\Magebit\Faq\Model\QuestionRepository::class);
-
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 
         if ($id) {
-            $question = $questionRepository->get($id);
-            $questionRepository->delete($question);
+            $question = $this->questionRepository->get($id);
+            $this->questionRepository->delete($question);
         }
         return $resultRedirect->setPath('*/*/index');
     }

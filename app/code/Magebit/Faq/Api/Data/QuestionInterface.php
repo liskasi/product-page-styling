@@ -118,9 +118,4 @@ interface QuestionInterface
      * @return string|null
      */
     public function getUpdatedAt(): ?string;
-
-    /**
-     * @return array
-     */
-    public function getAvailableStatuses(): array;
 }

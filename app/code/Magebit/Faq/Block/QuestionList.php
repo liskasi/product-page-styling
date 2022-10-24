@@ -16,6 +16,7 @@
 
 namespace Magebit\Faq\Block;
 
+use Magebit\Faq\Model\Question;
 use Magebit\Faq\Model\QuestionRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -33,6 +34,11 @@ class QuestionList extends Template
     protected $questionRepository;
 
     /**
+     * @var Question
+     */
+    protected $question;
+
+    /**
      * @var SearchCriteriaBuilder
      */
     protected $search;
@@ -45,6 +51,7 @@ class QuestionList extends Template
     /**
      * @param QuestionRepository $questionRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param Question $question
      * @param Context $context
      * @param SortOrderBuilder $sortOrderBuilder
      * @param array $data
@@ -52,6 +59,7 @@ class QuestionList extends Template
     public function __construct(
         QuestionRepository $questionRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        Question $question,
         Context $context,
         SortOrderBuilder $sortOrderBuilder,
         array $data = []
@@ -59,6 +67,7 @@ class QuestionList extends Template
         $this->questionRepository = $questionRepository;
         $this->search = $searchCriteriaBuilder;
         $this->sortOrderBuilder = $sortOrderBuilder;
+        $this->question = $question;
         parent::__construct($context, $data);
     }
 
@@ -81,12 +90,12 @@ class QuestionList extends Template
     protected function setSearchCriteriaAndSortOrder()
     {
         $sortOrder = $this->sortOrderBuilder
-            ->setField('position')
+            ->setField($this->question::POSITION)
             ->setDirection('ASC')
             ->create();
 
         return $this->search
-            ->addFilter('status', '1')
+            ->addFilter($this->question::STATUS, (string)$this->question::STATUS_ENABLED)
             ->addSortOrder($sortOrder);
     }
 

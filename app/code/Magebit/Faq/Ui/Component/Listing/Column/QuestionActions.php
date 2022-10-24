@@ -58,7 +58,6 @@ class QuestionActions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
-                // here we can also use the data from $item to configure some parameters of an action URL
                 $item[$this->getData('name')] = [
                     'delete' => [
                         'href' => $this->urlBuilder->getUrl('magebit_faq/question/delete', ['id' => $item['id']]),

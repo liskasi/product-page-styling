@@ -21,12 +21,20 @@ use Magebit\Faq\Api\Data;
 use Magebit\Faq\Api\Data\QuestionInterface;
 use Magebit\Faq\Api\QuestionManagementInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magebit\Faq\Model\QuestionRepository;
 
 /**
  * Question Management
  */
 class QuestionManagement implements QuestionManagementInterface
 {
+    protected QuestionRepository $questionRepository;
+
+    public function __construct(
+        QuestionRepository $questionRepository,
+    ) {
+        $this->questionRepository = $questionRepository;
+    }
 
     /**
      * @inheritDoc
@@ -34,7 +42,7 @@ class QuestionManagement implements QuestionManagementInterface
      */
     public function enableQuestion(Data\QuestionInterface $question): void
     {
-        $this->setQuestionStatus($question, 1);
+        $this->setQuestionStatus($question, $question::STATUS_ENABLED);
     }
 
     /**
@@ -43,17 +51,18 @@ class QuestionManagement implements QuestionManagementInterface
      */
     public function disableQuestion(Data\QuestionInterface $question): void
     {
-        $this->setQuestionStatus($question, 0);
+        $this->setQuestionStatus($question, $question::STATUS_DISABLED);
     }
 
     /**
      * @inheritDoc
+     * @throws CouldNotSaveException
      */
     public function setQuestionStatus(QuestionInterface $question, int $status): void
     {
         $question->setStatus($status);
         try {
-            $question->save();
+            $this->questionRepository->save($question);
         } catch (Exception $e) {
             throw new CouldNotSaveException(
                 __('Could not save the page: %1', $e->getMessage()),

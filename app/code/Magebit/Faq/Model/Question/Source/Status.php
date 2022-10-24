@@ -44,7 +44,7 @@ class Status implements OptionSourceInterface
      */
     public function toOptionArray()
     {
-        $availableOptions = $this->question->getAvailableStatuses();
+        $availableOptions = $this->getAvailableStatuses();
         $options = [];
         foreach ($availableOptions as $key => $value) {
             $options[] = [
@@ -53,5 +53,13 @@ class Status implements OptionSourceInterface
             ];
         }
         return $options;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableStatuses()
+    {
+        return [$this->question::STATUS_ENABLED => __('Enabled'), $this->question::STATUS_DISABLED => __('Disabled')];
     }
 }
