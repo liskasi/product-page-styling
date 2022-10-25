@@ -1,4 +1,6 @@
 RewriteEngine on
+php_flag display_errors on
+SetEnv MAGE_IS_DEVELOPER_MODE true
 RewriteCond %{REQUEST_URI} !^/pub/
 RewriteCond %{REQUEST_URI} !^/setup/
 RewriteCond %{REQUEST_URI} !^/update/
